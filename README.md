@@ -50,6 +50,7 @@ How to Run
 
 4. Click Confirm Vote to submit your vote. A MetaMask transaction will be prompted.
 
+5. Anyone can see in Shardeum Explorer
 
 
 
