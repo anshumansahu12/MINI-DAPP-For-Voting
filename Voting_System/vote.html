@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vote - Voting System</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f9; text-align: center; }
+    .container { width: 90%; max-width: 600px; margin: 40px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    h1 { margin-bottom: 20px; }
+    #candidateList { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+    .candidateCard { display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: 0.2s; background: #fafafa; }
+    .candidateCard:hover { background: #e6f0ff; }
+    .candidateCard.selected { border: 2px solid #007bff; background: #d0e7ff; }
+    .candidateCard img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-right: 10px; }
+    button { padding: 10px 20px; margin-top: 20px; font-size: 16px; border: none; border-radius: 5px; background: #007bff; color: white; cursor: pointer; transition: 0.2s; }
+    button:disabled { background: #999; cursor: not-allowed; }
+    #walletAddress { margin-top: 10px; font-weight: bold; color: #007bff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cast Your Vote</h1>
+    <button id="connectWallet">Connect Wallet</button>
+    <p id="walletAddress"></p>
+    <div id="candidateList"></div>
+    <button id="confirmVote" disabled>Confirm Vote</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.15.0/dist/ethers.umd.min.js"></script>
+  <script>
+    const candidates = [
+      { id: 1, name: "Rahul Gandhi", party: "Congress", photo: "img1.jpg" },
+      { id: 2, name: "Narendra Modi", party: "BJP", photo: "im2.jpg" },
+      { id: 3, name: "Nitin Gadkari", party: "Fail", photo: "im3.jpg" }
+    ];
+
+    let selectedCandidate = null;
+    let walletAddress = null;
+    const candidateDiv = document.getElementById("candidateList");
+    const confirmBtn = document.getElementById("confirmVote");
+    const walletText = document.getElementById("walletAddress");
+
+    // Connect Wallet
+    document.getElementById("connectWallet").onclick = async () => {
+      if (!window.ethereum) return alert("MetaMask not detected!");
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        walletAddress = accounts[0];
+        walletText.textContent = `Connected: ${walletAddress}`;
+      } catch (err) {
+        alert("Wallet connection failed!");
+        console.error(err);
+      }
+    };
+
+    // Render candidates
+    function renderCandidates() {
+      candidateDiv.innerHTML = "";
+      candidates.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "candidateCard";
+        card.innerHTML = `
+          <div style="display:flex;align-items:center;">
+            <img src="${c.photo}" alt="${c.name}">
+            <div>
+              <p><strong>${c.name}</strong></p>
+              <p>${c.party}</p>
+            </div>
+          </div>
+          <button>Select</button>
+        `;
+        card.querySelector("button").onclick = () => selectCandidate(c, card);
+        candidateDiv.appendChild(card);
+      });
+    }
+
+    // Select candidate
+    function selectCandidate(candidate, cardElement) {
+      selectedCandidate = candidate;
+      document.querySelectorAll(".candidateCard").forEach(c => c.classList.remove("selected"));
+      cardElement.classList.add("selected");
+      confirmBtn.disabled = false;
+    }
+
+    // Confirm Vote (MetaMask Transaction)
+    confirmBtn.onclick = async () => {
+      if (!walletAddress) return alert("Connect your wallet first!");
+      if (!selectedCandidate) return alert("Select a candidate!");
+
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+
+        // Dummy transaction: sending 0 ETH to self (replace with your contract call)
+        const tx = await signer.sendTransaction({
+          to: walletAddress,
+          value: ethers.parseEther("0.0") // 0 ETH just for demo
+        });
+
+        alert(`Transaction sent! Hash: ${tx.hash}`);
+
+        // Store vote locally
+        const votes = JSON.parse(localStorage.getItem("votes") || "[]");
+        votes.push({ wallet: walletAddress, candidateId: selectedCandidate.id });
+        localStorage.setItem("votes", JSON.stringify(votes));
+
+      } catch (err) {
+        console.error(err);
+        alert("Transaction failed!");
+      }
+    };
+
+    renderCandidates();
+  </script>
+</body>
+</html>

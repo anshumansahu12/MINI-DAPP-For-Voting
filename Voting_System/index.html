@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Voting System - Connect Wallet</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Connect Your Wallet</h1>
+    <button id="connectWalletBtn">Connect Wallet</button>
+    <p id="walletAddress"></p>
+  </div>
+
+  <script>
+    const connectBtn = document.getElementById("connectWalletBtn");
+    const walletAddr = document.getElementById("walletAddress");
+
+    connectBtn.onclick = async () => {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const account = accounts[0];
+          walletAddr.innerText = "Connected: " + account;
+          localStorage.setItem("wallet", account);
+          setTimeout(() => { window.location.href = "vote.html"; }, 1000);
+        } catch (err) {
+          alert("Wallet connection failed: " + err.message);
+        }
+      } else {
+        alert("MetaMask not detected. Install MetaMask!");
+      }
+    }
+  </script>
+</body>
+</html>

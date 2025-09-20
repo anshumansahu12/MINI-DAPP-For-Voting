@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Admin - Add Candidate</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Panel — Add Candidate</h1>
+    <p>Connect with the admin wallet (deployer) to add candidates</p>
+    <button id="connectAdmin">Connect Admin Wallet</button>
+    <p id="adminAddress"></p>
+
+    <div style="margin-top:18px;">
+      <input id="name" placeholder="Name" />
+      <input id="party" placeholder="Party" />
+      <input id="image" placeholder="Image URL" />
+      <button id="addCandidateBtn">Add Candidate</button>
+    </div>
+
+    <p id="adminMsg"></p>
+    <p style="margin-top:20px;">Note: Deployer address is admin. Use the same address that deployed contract.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

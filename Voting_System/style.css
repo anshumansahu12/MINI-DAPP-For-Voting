@@ -1,0 +1,92 @@
+/* style.css */
+
+/* General body styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Container for all pages */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Page headings */
+h1, h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+button {
+    background: #4e54c8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    margin: 10px 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #6c63ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Candidate cards */
+.candidateCard {
+    display: inline-block;
+    border: 1px solid #ddd;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 15px;
+    width: 140px;
+    background: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.candidateCard:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.candidateCard img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+/* Selected candidate styling */
+.selected {
+    border: 2px solid #4e54c8;
+    box-shadow: 0 6px 15px rgba(78,84,200,0.4);
+}
+
+/* Wallet address display */
+#walletAddress {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #555;
+    word-break: break-all;
+}
+
+/* Results list */
+#resultsList {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
